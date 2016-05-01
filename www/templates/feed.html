@@ -11,7 +11,7 @@
         <div class="scroll">
           <ion-refresher pulling-text="Pull to refresh" on-refresh="doRefresh()" pulling-icon="ion-android-arrow-down"></ion-refresher>
           <ion-list class="disable-user-behavior">
-              <ion-item postbox class="card" ng-repeat="post in posts" style="padding: 0px;">
+              <div postbox class="card" ng-repeat="post in posts" style="padding: 0px;">
                 <div class="image" mediabox></div>
                 <div ng-show="post.doesExpire" class="row" style="padding:0px;">
                   <div class="col" style="padding:0px;padding-bottom:6px;position:relative;">
@@ -30,7 +30,7 @@
                     <div class="ion-ios-cloud-download-outline ng-binding" style="white-space:nowrap;float:left;">&nbsp;{{post.saveCount}}</div>
                   </div>
                   <div class="col" style="padding: 0px;margin: 0px;">
-                    <div class="ion-ios-more" style="float: right;">&nbsp;</div>
+                    <!--<div class="ion-ios-more" style="float: right;">&nbsp;</div>-->
                     <div class="ion-ios-eye-outline ng-binding" style="float: right;">&nbsp;{{post.viewCount}}&nbsp;&nbsp;</div>
                   </div>
                 </div>
@@ -41,7 +41,7 @@
                     </div>
                   </div>
                 </div>
-              </ion-item>
+              </div>
           </ion-list>
           <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%"></ion-infinite-scroll>
         </div>

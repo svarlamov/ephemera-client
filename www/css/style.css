@@ -80,3 +80,41 @@ tags-input .tags .tag-item {
 .scroll-bar-indicator {
 	display: none;
 }
+
+.pwCanvasPaint canvas:first-child {
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.1), -1px -1px 4px rgba(0,0,0,0.1);
+  -webkit-box-shadow: 2px 2px 8px rgba(0,0,0,0.1), -1px -1px 4px rgba(0,0,0,0.1);
+}
+.pwColorSelector {
+  list-style: none;
+}
+.pwColor {
+  display: inline-block;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  margin-left: 5px;
+  border: 2px solid transparent;
+}
+.pwColor.active {
+  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  box-shadow: 2px 3px 2px rgba(0,0,0,0.2);
+  -webkit-box-shadow: 2px 3px 2px rgba(0,0,0,0.2);
+}
+.lineWidthSelector {
+  width: 100%;
+}
+.undo {
+  margin-top: 20px;
+}
+.undo > button {
+  background-color: orange;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+}
+.undo > button[disabled] {
+  background-color: #aaa;
+}

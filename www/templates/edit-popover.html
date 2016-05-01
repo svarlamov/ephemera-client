@@ -1,5 +1,5 @@
-<ion-popover-view ng-controller="ImgEditCtrl" style="height: 75%; width: 92%;">
-  <!--<ion-pane>-->
+<ion-popover-view style="height: 75%; width: 92%;">
+  <!--<ion-pane>--
     <ion-header-bar class="bar-stable">
       <h1 class="title">Edit Your Image</h1>
       <div class="buttons">
@@ -19,4 +19,26 @@
       </div>
     </ion-footer-bar>
   <!--</ion-pane>-->
+  <ion-header-bar class="bar-stable">
+      <div class="buttons">
+        <button class="button button-icon ion-ios-undo" data-ng-click="model.version = model.version - 1;" style="display: none;"></button>
+      </div>
+      <h1 class="title">Be Unique!</h1>
+      <div class="buttons">
+        <button class="button button-clear" ng-click="saveDrawing()">Use</button>
+      </div>
+    </ion-header-bar>
+    <ion-content scroll="false">
+      <div pw-canvas options="{undo: true, opacity: cOpacity, width: cWidth, height: cHeight, color: model.myColor}" version="model.version"></div>
+      <div pw-color-selector="['#000', '#00f', '#0f0', '#f00']" color="model.myColor"></div>
+    </ion-content>
+
+    <!--<ion-footer-bar class="bar-stable">
+      <div class="title">
+        <button class="button button-clear" style="color: {{brushcolor}}" ng-click="addText()">Aa</button>
+        <button class="button button-icon ion-paintbrush" ng-click="drawingMode()"></button>
+        <button class="button button-icon ion-android-color-palette" style="color: {{brushcolor}}" ng-if="showColorPaletteIcon" ng-click="openColorsPopover($event)"></button>
+        <button class="button button-icon ion-ios-undo" ng-click="undoLastObject()"></button>
+      </div>
+    </ion-footer-bar>-->
 </ion-popover-view>

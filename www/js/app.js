@@ -7,9 +7,9 @@
 // 'starter.controllers' is found in controllers.js
 var apiRoot = "http://52.38.123.65:5000/v0/"
 
-angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStorage', 'starter.services', 'starter.directives', 'ngTagsInput', 'ngIOS9UIWebViewPatch' ])
+angular.module('starter', ['ionic', 'starter.controllers', 'pw.canvas-painter', 'ngCordova', 'ngStorage', 'starter.services', 'starter.directives', 'ngTagsInput', 'ngIOS9UIWebViewPatch'/*, 'ngCordova.plugins.3dtouch'*/ ])
 
-.run(function($ionicPlatform, $state, Installation) {
+.run(function($ionicPlatform, /*$cordova3DTouch,*/ $state, Installation) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -23,6 +23,14 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
     }
     Installation.check();
     document.addEventListener('deviceready', function () {
+      /*console.log("deviceready")
+      $cordova3DTouch.isAvailable().then(function(result) {
+          console.log("is avail" + result); //true or false
+      });
+      $cordova3DTouch.addQuickActionHandler('create', function() {
+          //Navigate to target state when the quick action was pressed on home screen
+          $state.go('tab.create');
+      });*/
       ThreeDeeTouch.onHomeIconPressed = function (payload) {
         console.log("Icon pressed. Type: " + payload.type + ". Title: " + payload.title + ".");
         if (payload.type == 'create') {
@@ -36,6 +44,12 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
           console.log(JSON.stringify(payload));
         }
       }
+      /*ThreeDeeTouch.watchForceTouches(function(result) {
+        console.log("force touch % " + result.force); // 84
+        console.log("force touch timestamp " + result.timestamp); // 1449908744.706419
+        console.log("force touch x coordinate " + result.x); // 213
+        console.log("force touch y coordinate " + result.y); // 41
+      });*/
   }, false);
   });
 })
@@ -85,7 +99,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
         }
       }
     })
-  
   /*
    * Detail example
     .state('tab.chat-detail', {

@@ -1,5 +1,6 @@
 {
     "jscodehints.detectedExclusions": [
-        "/Users/svarlamov/Ephemera/www/lib/ionic/js/ionic.min.js"
+        "/Users/svarlamov/Ephemera/www/lib/ionic/js/ionic.min.js",
+        "/Users/svarlamov/Ephemera/www/js/ng-force.js"
     ]
 }

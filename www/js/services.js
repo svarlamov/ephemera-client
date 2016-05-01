@@ -27,6 +27,7 @@ angular.module('starter.services', [])
       }).error(function(data, status, headers, config) {
         console.log("Error getting app install id " + data)
       });
+      return false
     } else {
       $http.defaults.headers.common["X-INSTALLATION-ID"] = _getToken()
       return true
@@ -38,62 +39,69 @@ angular.module('starter.services', [])
   }
 })
 
-.factory('Posts', function() {
+.factory('Posts', function($http, Installation) {
   return {
 		calcDisplayHeight: function(width, height, newWidth) {
       var f = newWidth / width
       return (height * f)
-    }
-  };
-});
-
-/*
-.factory('Chats', function() {
-  // Might use a resource here that returns a JSON array
-
-  // Some fake testing data
-  var chats = [{
-    id: 0,
-    name: 'Ben Sparrow',
-    lastText: 'You on your way?',
-    face: 'img/ben.png'
-  }, {
-    id: 1,
-    name: 'Max Lynx',
-    lastText: 'Hey, it\'s me',
-    face: 'img/max.png'
-  }, {
-    id: 2,
-    name: 'Adam Bradleyson',
-    lastText: 'I should buy a boat',
-    face: 'img/adam.jpg'
-  }, {
-    id: 3,
-    name: 'Perry Governor',
-    lastText: 'Look at my mukluks!',
-    face: 'img/perry.png'
-  }, {
-    id: 4,
-    name: 'Mike Harrington',
-    lastText: 'This is wicked good ice cream.',
-    face: 'img/mike.png'
-  }];
-
-  return {
-    all: function() {
-      return chats;
     },
-    remove: function(chat) {
-      chats.splice(chats.indexOf(chat), 1);
+    getPercentage: function(expiresAt, createdAt) {
+      var expAt = Date.parse(expiresAt)
+      var crtAt = Date.parse(createdAt)
+      var range = expAt - crtAt
+      var n = Date.now()
+      return (100 - ((expAt-n)/range)*100)
     },
-    get: function(chatId) {
-      for (var i = 0; i < chats.length; i++) {
-        if (chats[i].id === parseInt(chatId)) {
-          return chats[i];
-        }
+    getExpiresText: function(expiresAt) {
+      var now = Date.now();
+      var e = Date.parse(expiresAt)
+      seconds = (now-e) / 1000;
+      seconds = Math.abs(seconds);
+      if (seconds < 60) {
+        return ("Expires in " + seconds + " Seconds")
       }
-      return null;
+      minutes = Math.round(seconds/60)
+      if (minutes < 60) {
+        if (minutes == 1) {
+          return ("Expires in 1 Minute")
+        }
+        return ("Expires in " + minutes + " Minutes")
+      }
+      hours = Math.round(minutes/60)
+      if (hours < 24) {
+        if (hours == 1) {
+          return ("Expires in 1 Hour")
+        }
+        return ("Expires in " + hours + " Hours")
+      }
+      days = Math.round(hours/24)
+      if (days == 1) {
+        return "Expires in 1 Day"
+      }
+      return ("Expires in " + days + " Days")
+    },
+    likePost: function(postId, callback) {
+      while (!Installation.check) {
+        sleep(500)
+      }
+      $http.post(apiRoot + 'posts/' + postId + '/likes').success(function(data, status, headers, config) {
+        callback(data.data.count)
+      }).error(function(data, status, headers, config) {
+        if (data.data.count > 0) {
+          callback(data.data.count)
+        }
+        console.log("Error while liking a post: " + data.message)
+      });
+    },
+    savePost: function(postId, callback) {
+      while (!Installation.check) {
+        sleep(500)
+      }
+      $http.post(apiRoot + 'posts/' + postId + '/saves').success(function(data, status, headers, config) {
+        callback(data.data.count)
+      }).error(function(data, status, headers, config) {
+        console.log("Error while saving a post: " + data.message)
+      });
     }
   };
 });
-*/

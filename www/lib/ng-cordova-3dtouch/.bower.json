@@ -1,0 +1,40 @@
+{
+  "name": "ng-cordova-3dtouch",
+  "version": "1.0.1",
+  "authors": [
+    "Nikola Plesa <nickplesha@gmail.com>"
+  ],
+  "description": "AngularJS library for working with Cordova 3D touch plugin.",
+  "main": [
+    "3dtouch.js"
+  ],
+  "keywords": [
+    "ng-cordova-3dtouch",
+    "ngCordova",
+    "ionic",
+    "3d",
+    "3d touch",
+    "cordova",
+    "phonegap"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/nickplesha",
+  "private": false,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "_release": "1.0.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "v1.0.1",
+    "commit": "39651320787ae36050719577c22ee033f1d4169f"
+  },
+  "_source": "https://github.com/nickplesha/ng-cordova-3dtouch.git",
+  "_target": "^1.0.1",
+  "_originalSource": "ng-cordova-3dtouch",
+  "_direct": true
+}
