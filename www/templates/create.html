@@ -1,0 +1,30 @@
+<ion-view name="create" class="view-container tab-content">
+  <ion-header-bar align-title="center" class="bar-positive bar bar-header">
+    <h1 class="title">Create</h1>
+  </ion-header-bar>
+    <ion-content delegate-handle="creationScroll" scroll="true" class="scroll-content ionic-scroll has-header has-tabs" has-bouncing="false">
+      <div class="card" style="padding:0px;">
+          <div class="image">
+            <div style="padding-left: 5px; padding-right: 5px;">
+              <button class="button button-full button-energized" ng-click="getPhoto()" style="margin-bottom: 5px;">
+                Add Image
+              </button>
+            </div>
+            <img id="image-preview" style="width: 100%; padding-left: 5px; padding-right: 5px;">
+          </div>
+          <div style="margin: 0px;padding: 1px;border:1px solid rgba(34,36,38,.15);padding-bottom: 20px;">
+            <div style="padding: 5px;border-bottom:1px solid rgba(34,36,38,.15)">
+              <div rangeslider class="irs-hidden-input" ng-model="sliderval"></div>
+            </div>
+            <div style="padding-left: 5px; padding-right: 5px;">
+              <tags-input ng-model="tags"><span ng-bind="sliderval"></span></tags-input>
+            </div>
+          </div>
+          <div class="list list-inset" style="margin: 0px;border:0px;">
+            <div style="padding-left: 5px; padding-right: 5px;">
+              <a class="button button-block button-full button-positive" ng-click="createPost()">Post</a>
+            </div>
+          </div>
+        </div>
+    </ion-content>
+</ion-view>

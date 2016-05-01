@@ -1,0 +1,62 @@
+<ion-view name="library" class="view-container tab-content">
+    <ion-header-bar class="bar-positive bar bar-header" style="margin: 0px;padding: 0px;">
+      <div class="bar item-input-inset bar-positive">
+        <div class="row">
+            <div class="col">
+                <button class="button button-clear button-block" ng-click="loadSaves()">
+                    Saved
+                </button>
+            </div>
+            <div class="col">
+                <button class="button button-clear button-block" ng-click="loadCreations()">
+                    Creations
+                </button>
+            </div>
+            <div class="col">
+                <button class="button button-clear button-block" ng-click="loadLikes()">
+                    Liked
+                </button>
+            </div>
+        </div>
+      </div>
+    </ion-header-bar>
+    <ion-content delegate-handle="libraryScroll" class="scroll-content ionic-scroll has-header has-tabs" style="margin-top: -10px;">
+        <div class="scroll">
+          <ion-refresher pulling-text="Pull to refresh" on-refresh="doRefresh()" pulling-icon="ion-android-arrow-down"></ion-refresher>
+          <ion-list class="disable-user-behavior">
+              <ion-item postbox class="card" ng-repeat="post in posts" style="padding: 0px;">
+                <div class="image" mediabox></div>
+                <div ng-show="post.doesExpire" class="row" style="padding:0px;">
+                  <div class="col" style="padding:0px;padding-bottom:6px;position:relative;">
+                    <div class="count-down-text ng-binding">
+                      {{post.expiryText}}
+                    </div>
+                    <div class="count-down">
+                      <div class="count-down-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:{{post.percentDone}}%;padding:0px;">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row" style="margin:0px;padding-left:4px;padding-top:2px;padding-bottom:4px;">
+                  <div class="col" style="padding: 0px;margin: 0px;">
+                    <div class="ion-ios-heart-outline ng-binding" style="white-space:nowrap;float:left;">&nbsp;{{post.likeCount}}&nbsp;</div>
+                    <div class="ion-ios-cloud-download-outline ng-binding" style="white-space:nowrap;float:left;">&nbsp;{{post.saveCount}}</div>
+                  </div>
+                  <div class="col" style="padding: 0px;margin: 0px;">
+                    <div class="ion-ios-more" style="float: right;">&nbsp;</div>
+                    <div class="ion-ios-eye-outline ng-binding" style="float: right;">&nbsp;{{post.viewCount}}&nbsp;&nbsp;</div>
+                  </div>
+                </div>
+                <div class="row" style="margin: 0px;padding: 1px;border:1px solid rgba(34,36,38,.15);min-height: 30px;">
+                  <div class="col" style="padding: 0px;margin: 0px;">
+                    <div ng-repeat="tag in post.tags">
+                      <div class="tag-display ng-binding"><i class="ion-ios-pricetag-outline"></i> {{tag}}</div>
+                    </div>
+                  </div>
+                </div>
+              </ion-item>
+          </ion-list>
+          <ion-infinite-scroll ng-if="!noMoreItemsAvailable" on-infinite="loadMore()" distance="10%"></ion-infinite-scroll>
+        </div>
+      </ion-content>
+</ion-view>

@@ -1,0 +1,82 @@
+/* Empty. Add your own CSS if you like */
+.tag-display {
+    color: rgb(255, 255, 255);
+    float: left;
+    border-image-source: initial;
+    border-image-slice: initial;
+    border-image-width: initial;
+    border-image-outset: initial;
+    border-image-repeat: initial;
+    background: rgb(66, 139, 202);
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(53, 126, 189);
+    border-radius: 4px;
+    padding: 1px 4px 1px 2px;
+    margin: 2px;
+}
+.count-down-text {
+    font-size: 12px;
+    line-height: 25px;
+    color: rgb(255, 255, 255);
+    position: absolute;
+    margin-top: -5px;
+    width: 100%;
+    text-align: center;
+    top: 0px;
+    left: 0px;
+}
+
+.count-down {
+    height: 25px;
+    background-color: rgb(68, 85, 105);
+    box-shadow: rgba(0, 0, 0, 0.0980392) 0px 1px 2px inset;
+    margin: -5px;
+    overflow: hidden;
+    border-radius: 0px;
+}
+
+.count-down-bar {
+    float: right;
+    width: 0px;
+    height: 100%;
+    background-color: rgb(51, 122, 183);
+    box-shadow: rgba(0, 0, 0, 0.14902) 0px -1px 0px inset;
+    transition: width 0.6s ease;
+}
+
+.pane {
+    background-color: rgb(51, 51, 51);
+}
+
+.tab-item-middle {
+    background-color: rgb(81, 158, 200);
+    color: rgb(46, 63, 83);
+    opacity: 1;
+    border-radius: 0px;
+}
+
+.tabs {
+  padding-top: 0px;
+}
+
+tags-input .tags .tag-item {
+    color: rgb(255, 255, 255);
+    float: left;
+    border-image-source: initial;
+    border-image-slice: initial;
+    border-image-width: initial;
+    border-image-outset: initial;
+    border-image-repeat: initial;
+    background: rgb(66, 139, 202);
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(53, 126, 189);
+    border-radius: 4px;
+    padding: 1px 4px 1px 2px;
+    margin: 2px;
+}
+
+.scroll-bar-indicator {
+	display: none;
+}
