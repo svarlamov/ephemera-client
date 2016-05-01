@@ -22,7 +22,7 @@ angular.module('starter.controllers', [])
           data.data[i].expiryText = "Expires in 2 Minutes"
         }
       }
-      if (isRefresh) {
+      if (isRefresh || $scope.posts.length == 0) {
         if (data.data.length == 0) {
           $scope.posts = [{
             "id": "08584a13-058c-47fb-9c9d-6ac5f994ef83",
@@ -33,7 +33,7 @@ angular.module('starter.controllers', [])
               "height": 348,
               "width": 304
             },
-            "tags": [ "No", "content", "here", "yet", "..." ],
+            "tags": [ "No", "content", "here", "yet" ],
             "likeCount": 1,
             "isLiked": true,
             "viewCount": 1,
@@ -113,7 +113,7 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('FeedCtrl', function($scope, $stateParams, $ionicScrollDelegate, $http, Posts, Installation) {
+.controller('FeedCtrl', function($scope, $ionicScrollDelegate, $http, Posts, Installation) {
   $scope.limit = 10
   $scope.offset = 0
   $scope.posts = [];
@@ -172,7 +172,7 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller('CreateCtrl', function($scope, $http, $state, $rootScope, $ionicScrollDelegate, $ionicHistory, $ionicActionSheet, Installation) {
+.controller('CreateCtrl', function($scope, $http, $state, $ionicPopover, $rootScope, $ionicScrollDelegate, $ionicHistory, $ionicActionSheet, Installation) {
   $scope.isStillUploading = false
   var dataURItoBlob = function (dataURI) {
       // convert base64/URLEncoded data component to raw binary data held in a string
@@ -209,6 +209,11 @@ angular.module('starter.controllers', [])
       sourceType: source
     };
   }
+  $ionicPopover.fromTemplateUrl('templates/edit-popover.html', {
+            scope: $scope
+          }).then(function(popover) {
+            $scope.editPopover = popover;
+          });
   $scope.tags = [ ];
   $scope.createPost = function() {
     while ($scope.isStillUploading) {
@@ -247,7 +252,9 @@ angular.module('starter.controllers', [])
     });
   }
   
-  $scope.getPhoto = function() {
+  $scope.getPhoto = function($event) {
+    $scope.editPopover.show($event);
+    /*
     $scope.hideSheet = $ionicActionSheet.show({
         buttons: [
           { text: 'Take Photo' },
@@ -256,12 +263,12 @@ angular.module('starter.controllers', [])
         titleText: 'Add an Image',
         cancelText: 'Cancel',
         buttonClicked: function(index) {
-          $scope.addImage(index);
+          $scope.addImage(index, $event);
         }
-      });
+      });*/
   }
   
-  $scope.addImage = function(type) {
+  $scope.addImage = function(type, $event) {
       $scope.hideSheet();
       navigator.camera.getPicture(onSuccess, onFail, optionsForType(type)); 
       //destination type was a base64 encoding
@@ -270,6 +277,7 @@ angular.module('starter.controllers', [])
           $('#image-preview').attr('src', "data:image/jpeg;base64,"+imageData);
           //setting scope.lastPhoto 
           $scope.lastPhoto = dataURItoBlob("data:image/jpeg;base64,"+imageData);
+          $scope.editPopover.show($event);
           $scope.upload()
       }
       function onFail(message) {
@@ -305,6 +313,166 @@ angular.module('starter.controllers', [])
            });
       })
   }
+})
+
+.controller('ImgEditCtrl', function($scope, $ionicPopover, $ionicPopup) {
+
+  var width = window.innerWidth; // width of canvas
+  var height = window.innerHeight; // height of canvas
+
+  var canvas = new fabric.Canvas('c');
+  console.log(document.getElementById('c'))
+
+  canvas.selection = false;
+  fabric.Object.prototype.selectable = false; // prevent drawing objects to be draggable or clickable
+  canvas.setBackgroundColor('#fff')
+  // sets canvas height and width
+  canvas.setHeight(height);
+  canvas.setWidth(width);
+  // sets canvas height and width
+  // *** having both canvas.setHeight and canvas.width prevents errors when saving
+  canvas.width = width;
+  canvas.height = height;
+
+  canvas.isDrawingMode = false;
+  canvas.freeDrawingBrush.width = 6; // size of the drawing brush
+  $scope.brushcolor = '#000000'; // set brushcolor to black to begin
+
+  // ** uncomment below to set a background image using a url **
+
+  // canvas.setBackgroundImage('image-url-here', canvas.renderAll.bind(canvas), {
+  //   height: height,
+  //   width: width
+  // });
+
+
+
+  // drawing mode
+  $scope.drawingMode = function() {
+    console.log("drawingMode()")
+    // check if fabric is in drawing mode
+    if (canvas.isDrawingMode == true) {
+      // if fabric is in drawing mode, exit drawing mode
+      $scope.showColorPaletteIcon = false; // hind color palette icon
+      canvas.isDrawingMode = false;
+      console.log("Was already true")
+    } else {
+      // if fabric is not in drawing mode, enter drawing mode
+      $scope.showColorPaletteIcon = true; // show color palette icon
+      canvas.isDrawingMode = true;
+      console.log("Was false")
+    }
+  }
+
+  // color options popover
+  $ionicPopover.fromTemplateUrl('templates/colors.html', {
+    scope: $scope
+  }).then(function(popover) {
+    $scope.popover = popover;
+  });
+
+  $scope.openColorsPopover = function($event) {
+    $scope.popover.show($event);
+  };
+  $scope.closeColorsPopover = function() {
+    $scope.popover.hide();
+  };
+
+  // list of colors
+  $scope.colors = [
+      {color: "#ecf0f1"},
+      {color: "#95a5a6"},
+      {color: "#bdc3c7"},
+      {color: "#7f8c8d"},
+      {color: "#000000"},
+      {color: "#F1A9A0"},
+      {color: "#D2527F"},
+      {color: "#f1c40f"},
+      {color: "#f39c12"},
+      {color: "#e67e22"},
+      {color: "#d35400"},
+      {color: "#e74c3c"},
+      {color: "#c0392b"},
+      {color: "#6D4C41"},
+      {color: "#3E2723"},
+      {color: "#1abc9c"},
+      {color: "#16a085"},
+      {color: "#2ecc71"},
+      {color: "#27ae60"},
+      {color: "#3498db"},
+      {color: "#2980b9"},
+      {color: "#34495e"},
+      {color: "#2c3e50"},
+      {color: "#9b59b6"},
+      {color: "#8e44ad"},
+  ]
+
+  $scope.changeBrushColor = function(color) {
+    canvas.freeDrawingBrush.color = color;
+    $scope.brushcolor = color; // used to change the color palatte icon's color
+    $scope.popover.hide(); // hide popover
+  }
+
+  // undo last object, drawing or text
+  $scope.undoLastObject = function() {
+    var canvas_objects = canvas._objects;
+    var last = canvas_objects[canvas_objects.length - 1];
+    canvas.remove(last);
+    canvas.renderAll();
+  }
+
+  $scope.addText = function() {
+    // prevent user from being in drawing mode while adding text
+    // this allows the user to manipulate the text object without drawing at the same time
+    canvas.isDrawingMode = false; // exit drawing
+    $scope.showColorPaletteIcon = false; // hide color palette icon
+
+    $scope.data = {}
+
+    // ionic popup used to prompt user to enter text
+    var myPopup = $ionicPopup.show({
+      template: '<input type="text" ng-model="data.input">',
+      title: 'Enter Text',
+      subTitle: '',
+      scope: $scope,
+      buttons: [{
+        text: 'Cancel'
+      }, {
+        text: '<b>Save</b>',
+        type: 'button-stable',
+        onTap: function(e) {
+          if (!$scope.data.input) {
+            e.preventDefault();
+          } else {
+            return $scope.data.input;
+          }
+        }
+      }]
+    });
+    myPopup.then(function(input) {
+
+      // fabric js
+      var t = new fabric.Text(input, {
+        left: (width / 3),
+        top: 100,
+        fontFamily: 'Helvetica',
+        fill: $scope.brushcolor, // color
+        selectable: true, // draggbale
+
+      });
+      canvas.add(t); // add text to fabric.js canvas
+
+    });
+  }
+
+  $scope.saveDrawing = function() {
+    // to save the drawing
+    var drawing = canvas.toDataURL();
+
+  }
+
+
+
 });
 
 /*

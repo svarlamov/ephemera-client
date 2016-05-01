@@ -9,20 +9,34 @@ var apiRoot = "http://52.38.123.65:5000/v0/"
 
 angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStorage', 'starter.services', 'starter.directives', 'ngTagsInput', 'ngIOS9UIWebViewPatch' ])
 
-.run(function($ionicPlatform, Installation) {
+.run(function($ionicPlatform, $state, Installation) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
-
     }
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
     Installation.check();
+    document.addEventListener('deviceready', function () {
+      ThreeDeeTouch.onHomeIconPressed = function (payload) {
+        console.log("Icon pressed. Type: " + payload.type + ". Title: " + payload.title + ".");
+        if (payload.type == 'create') {
+          $state.go('tab.create')
+        } else if (payload.type == 'saves') {
+          $state.go('tab.library')
+        } else if(payload.type == 'search') {
+          $state.go('tab.feed')
+        } else {
+          // hook up any other icons you may have and do something awesome (e.g. launch the Camera UI, then share the image to Twitter)
+          console.log(JSON.stringify(payload));
+        }
+      }
+  }, false);
   });
 })
 
@@ -57,10 +71,7 @@ angular.module('starter', ['ionic', 'starter.controllers', 'ngCordova', 'ngStora
       views: {
         'feed': {
           templateUrl: 'templates/feed.html',
-          controller: 'FeedCtrl',
-          params : {
-            shouldRefresh : false
-          }
+          controller: 'FeedCtrl'
         }
       }
     })

@@ -1,0 +1,22 @@
+<ion-popover-view ng-controller="ImgEditCtrl" style="height: 75%; width: 92%;">
+  <!--<ion-pane>-->
+    <ion-header-bar class="bar-stable">
+      <h1 class="title">Edit Your Image</h1>
+      <div class="buttons">
+        <button class="button button-clear" ng-click="saveDrawing()">Save</button>
+      </div>
+    </ion-header-bar>
+    <ion-content scroll="false">
+      <canvas id="" drawing></canvas>
+    </ion-content>
+
+    <ion-footer-bar class="bar-stable">
+      <div class="title">
+        <button class="button button-clear" style="color: {{brushcolor}}" ng-click="addText()">Aa</button>
+        <button class="button button-icon ion-paintbrush" ng-click="drawingMode()"></button>
+        <button class="button button-icon ion-android-color-palette" style="color: {{brushcolor}}" ng-if="showColorPaletteIcon" ng-click="openColorsPopover($event)"></button>
+        <button class="button button-icon ion-ios-undo" ng-click="undoLastObject()"></button>
+      </div>
+    </ion-footer-bar>
+  <!--</ion-pane>-->
+</ion-popover-view>
