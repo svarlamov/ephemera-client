@@ -144,6 +144,8 @@ angular.module('starter.controllers', [])
         $scope.$broadcast('scroll.refreshComplete');
         $scope.offset += $scope.limit
         //$scope.$apply()
+      } else if ($scope.posts.length == 0 && data.data.length == 0) {
+        getPosts(true)
       } else {
         $scope.posts = $scope.posts.concat(data.data)
         $scope.offset += $scope.limit
@@ -165,14 +167,24 @@ angular.module('starter.controllers', [])
     getPosts(false)
   };
   $scope.onImgDoubleTap = function(id) {
-    Posts.likePost(id, function(cnt) {
-      for (var i = 0; i < $scope.posts.length; i++) {
-        if ($scope.posts[i].id == id) {
-          $scope.posts[i].likeCount = cnt
-          break;
+    for (var i = 0; i < $scope.posts.length; i++) {
+      if ($scope.posts[i].id == id) {
+        if ($scope.posts[i].isLiked) {
+          Posts.savePost(id, function(cnt) {
+            $scope.posts[i].saveCount = cnt
+            $scope.posts[i].isSaved = true
+            console.log("Add to file system")
+            window.open($scope.posts[i].media.url, '_system', 'location=yes');
+          })
+        } else {
+          Posts.likePost(id, function(cnt) {
+            $scope.posts[i].likeCount = cnt
+            $scope.posts[i].isLiked = true
+          })
         }
+        break;
       }
-    })
+    }
   };
   $scope.onImgOnHold = function() {
     console.log("onImgHold")
